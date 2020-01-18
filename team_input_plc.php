@@ -1,6 +1,8 @@
 <?php
 session_start();
 $userName = $_SESSION["userName"];
+//$teamName = $_SESSION["teamName"];
+$_SESSION["assessName"] = "CFA 1";
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +86,11 @@ float: left;
 
 <div class="grid-container">
   <div class="item1">
-    PLC Admin Team Builder
+    <?php
+echo "Hey ". $userName. "! Let's Build Your 'Team' ";
+echo "<br>";
+echo "Your CFA will be Titled 'CFA 1'";
+     ?>
   </div>
   <div class="item2"></div>
 
@@ -121,7 +127,7 @@ float: left;
           $userName = $row["userName"];
   ?>
 
-    <option value=<?php echo $userName?>><?php echo $userName?></option>
+    <option value=<?php echo $userName;?>><?php echo $userName;?></option>
 
   <?php
 

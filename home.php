@@ -1,5 +1,15 @@
 <?php
 session_start();
+$adminName = $_SESSION["userName"];
+//SELECT team name from //
+$db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
+
+$user_check_query = "SELECT teamName FROM plcTeam WHERE admin ='$adminName' Limit 1";
+$result = mysqli_query($db, $user_check_query);
+$fetch= mysqli_fetch_assoc($result);
+$teamName = $fetch[teamName];
+$_SESSION["teamName"] = $teamName;
+//echo $result;
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,14 +44,19 @@ session_start();
 
 
 <div class="grid-container">
-  <div class="item1">PLC Admin Home Page</div>
+  <div class="item1">PLC Home Page<br>
+<?php
+echo "<br>";
+echo "Team - ".$teamName."<br>";
+echo "Admin - ".$adminName;
+ ?>
+  </div>
   <div class="item2"></div>
   <div class="item3">
 
       <br>
       <a href="record_plc.php">Record Minutes</a>
-      <br>
-      <a href="team_input_plc.php">Team Builder</a>
+      
   </div>
   <div class="item4"></div>
   <div class="item5"></div>

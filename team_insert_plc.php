@@ -1,17 +1,21 @@
 <?php
 session_start();
 $userName = $_SESSION["userName"];
-
+$assessName = $_SESSION["assessName"];
+if (!$_SESSION["teamName"]){
+$_SESSION["teamName"] =$_POST["teamName"];
+}
+$assessTeam = $_SESSION["teamName"];
 
 	if(isset($_POST['submit']))
 
 	{
 
-	  $aCountries = $_POST['teamMembers'];
-		$teamName = $_POST['teamName'];
+	  $teamMembersPost = $_POST['teamMembers'];
+		//$teamName = $_SESSION['teamName'];
 
 
-	  if(!isset($aCountries))
+	  if(!isset($teamMembersPost))
 
 	  {
 
@@ -20,19 +24,19 @@ $userName = $_SESSION["userName"];
 	  }
 
 	  else
-//print_r($aCountries);
+//print_r($teamMembersPost);
 	  {
 
-	    $nCountries = count($aCountries);
+	    $nteamMembersPost = count($teamMembersPost);
 
 
-	    echo("<p>You selected $nCountries countries: ");
+	    echo("<p>You selected $nteamMembersPost countries: ");
 
 	   // for($i=0; $i < $nCountries; $i++)
 
 	    //{
 
-	      echo($aCountries[$i] . " ");
+	      echo($teamMembersPost[$i] . " ");
         //put sql insert statement here
         $servername = "localhost";
         $dbusername = "debian-sys-maint";
@@ -47,78 +51,61 @@ $userName = $_SESSION["userName"];
            die("Connection failed: " . $conn->connect_error);
         }
         $sql = "INSERT INTO plcTeam (teamName, admin, member1, member2, member3, member4, member5, member6, member7, member8, member9, member10)
-				      VALUES('$teamName', '$userName', '$aCountries[0]', '$aCountries[1]', '$aCountries[2]', '$aCountries[3]', '$aCountries[4]', '$aCountries[5]', '$aCountries[6]', '$aCountries[7]', '$aCountries[8]', '$aCountries[9]')";
+				      VALUES('$assessTeam', '$userName', '$teamMembersPost[0]', '$teamMembersPost[1]', '$teamMembersPost[2]', '$teamMembersPost[3]', '$teamMembersPost[4]', '$teamMembersPost[5]', '$teamMembersPost[6]', '$teamMembersPost[7]', '$teamMembersPost[8]', '$teamMembersPost[9]')";
 
 if ($conn->query($sql) === TRUE) {
   echo "Record updated successfully";
-} else {
-  echo "Error updating record: " . $conn->error;
-}
-	    //}
+			}
 
-	    echo("</p>");
+		else {
+		  echo "Error updating record: " . $conn->error;
+		}
+			    //}
+
+					//put sql insert statement here
+					$servername = "localhost";
+					$dbusername = "debian-sys-maint";
+					$password = "bvjwgkcdZl64H808";
+					$dbname = "plc";
+
+					$assessStandard = "";
+					$assessLT = "";
+					$assessDay = "";
+					$completed = "";
+
+					// Create connection
+					$conn = new mysqli($servername, $dbusername, $password, $dbname);
+					// Check connection
+					if ($conn->connect_error) {
+						 die("Connection failed: " . $conn->connect_error);
+					}
+					$sql = "INSERT INTO plcAssess (assessAdmin, assessName, assessTeam, assessStandard, assessLT, assessDay, completed)
+								VALUES('$userName', '$assessName', '$assessTeam', '$assessStandard', '$assessLT', '$assessDay', '$completed')";
+
+					if ($conn->query($sql) === TRUE) {
+					header('location: record_plc.php');
+					} else {
+					echo "Error updating record: " . $conn->error;
+					header('location: https://www.yahoo.com');
+					}
+
 
 	  }
 
 	}
 
+
+
+
+
+
+
 	?>
+
   <br>
-  <?php
- $a = array("red", "green", "blue");
- print_r($a);
 
- echo "<br>";
-
- $b = array("Peter"=>"35", "Ben"=>"37", "Joe"=>"43");
- print_r($b);
- ?>
- <!--printing static select form array-->
  <?php
 
-
- if(isset($_POST['submit']))
-
- {
-
-   $aCountries = $_POST['leadSource'];
-
-
-
-   if(!isset($aCountries))
-
-   {
-
-     echo("<p>You didn't select any countries!</p>\n");
-
-   }
-
-   else
-
-   {
-     $array = array ($_POST['leadSource']);
-     echo "<br>";
-     print_r($aCountries);
-     echo "<br>";
-     print_r($array);
-     $nCountries = count($aCountries);
-
-
-     echo("<p>You selected $nCountries countries: ");
-
-     for($i=0; $i < $nCountries; $i++)
-
-     {
-
-       echo($aCountries[$i] . ", ");
-
-     }
-
-     echo("</p>");
-
-  }
-
- }
-echo $teamName;
-header('location: home.php');
+//	$_SESSION["teamName"]= $teamName;
+//	header('location: record_plc.php');
  ?>

@@ -1,6 +1,9 @@
 <?php
 session_start();
+session_unset();
+
 $_SESSION["userName"] = $_POST["username"];
+
 // initializing variables
 $username = "";
 $email    = "";
@@ -79,7 +82,24 @@ if (isset($_POST['login_user'])) {
   	if (mysqli_num_rows($results) == 1) {
   	  $_SESSION['username'] = $username;
   	  $_SESSION['success'] = "You are now logged in";
-  	  header('location: home.php');
+
+      //SELECT team name from //
+      $db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
+
+      $user_check_query = "SELECT teamName FROM plcTeam WHERE admin ='$username' Limit 1";
+      $result = mysqli_query($db, $user_check_query);
+      $fetch= mysqli_fetch_assoc($result);
+      $teamName = $fetch[teamName];
+
+      if ($teamName){
+          $_SESSION['teamName'] = $teamName;
+        header('location: record_plc.php');}else {
+
+            header('location: team_input_plc.php');
+        }
+
+
+
   	}else {
   		array_push($errors, "Wrong username/password combination");
   	}
