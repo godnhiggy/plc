@@ -16,22 +16,24 @@ $binary = "";
   display: grid;
   grid-template-columns: auto auto;
   grid-gap: 3px 5px;
-  background-color: #2196F3;
+  /*background-color: #2196F3;*/
   padding: 7px;
 }
 
 .grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #2196F3;
+  /*background-color: rgba(255, 255, 255, .3);*/
   text-align: center;
   padding: 20px 0;
   font-size: 20px;
+  border-radius: 25px;
 }
-.grid-container > div1 {
+/*.grid-container > div1 {
   background-color: green;
   text-align: center;
   padding: 20px 0;
   font-size: 20px;
-}
+}*/
 .item1 {
   grid-area: 1/1/2/3
 }
@@ -74,8 +76,7 @@ $binary = "";
           $completed = $user['completed'];
           $_SESSION["assessName"] = $assessName;
 
-
-          //echo $assessName;
+                  //echo $assessName;
           //array_push($errors, "Username already exists");
         }
     //  }
@@ -83,22 +84,34 @@ $binary = "";
 
   We are working on CFA: <b><?php echo $assessName?></b><br><br>
 </div>
-<div class="item4">
 
-  <b>1. What</b><br>
+<?php
+if ($assessStandard) {
+
+$test="#2196F3";} else {$test="lightblue";}?>
+
+<div class="4" style = "background-color:
+
+<?php echo $test; ?>
+
+">
+
+  <b>1. What</b>
 
 
   <?php
   if ( $assessStandard) {
-    echo "<u>They need to know: </u><br>".$assessStandard."</u>";
+    echo "... they need to know: <br><br>".$assessStandard."</u>";
+
   } else {
   ?>
 
-      <form action="act_record.php" method="POST">
+      <form action="four_questions_action_plc.php" method="POST">
 
         essential standard<br>
-        <input type="text" name="plcStandard"><br>
+        <input type="text" name="assessStandard"><br>
         <input type="submit" value="Submit"><br>
+
       </form>
       <?php
     }
@@ -106,18 +119,29 @@ $binary = "";
 
 
 </div>
-<div class="item5">
+
+<?php
+if ($assessLT) {
+
+$test="#2196F3";} else {$test="lightblue";}?>
+
+<div class="item5" style = "background-color:
+
+<?php echo $test; ?>
+
+">
+<!--<div class="item5">-->
   <?php
-  if ( $assessLT) {
-    echo "<u>They need to hit: </u><br>".$assessLT;
+  if ($assessLT) {
+  echo "<u>... they need to hit: </u><br><br>".$assessLT;
   } else {
   ?>
 
 
-    <form>
+    <form action="four_questions_action_plc.php" method="POST">
 
         learning target<br>
-        <input type="text" name="notes"><br>
+        <input type="text" name="assessLT"><br>
         <input type="submit" value="Submit"><br>
       </form>
 
@@ -127,21 +151,33 @@ $binary = "";
 
 
 </div>
-<div class="item6">
+<?php
+if ($assessDay) {
+
+$test="#2196F3";} else {$test="lightblue";}?>
+
+<div class="item6" style = "background-color:
+
+<?php echo $test; ?>
+
+">
   <?php
-  if ($assessDay) {
+echo "<u>Target Date: </u><br>".$assessDay;
+echo "<br><br>";
+  if (!$assessDay) {
     echo "<u>Target Date: </u><br>".$assessDay;
   }else{
    ?>
 
-      <form>
+      <form action="four_questions_action_plc.php" method="POST">
 
-        test date<br>
-        <input type="date" name="day"><br>
+        change test date<br>
+        <input type="date" name="assessDay"><br>
         <input type="submit" value="Submit"><br>
       </form>
 
   <?php
+
   }
   ?>
 
@@ -154,12 +190,55 @@ $binary = "";
     <form action="upload_pdf_action.php" method="post" enctype="multipart/form-data">
 
     <input type="file" name="file" size="50" />
-
-    <input type="submit" value="Upload" />
+    <input type="text" name="fileDescription"><br>
+    <input type="submit" value="Upload"/>
 
     </form><br><br>
     <br>
-    <a href="uploads/thirddoc.pdf">PDF File</a>
+    <?php
+
+    $fileToPrint = "100";
+    $teamName ="FirstTeam";
+    $assessName = "CFA 1";
+    $fileType = "Arduino Construction";
+
+    $servername = "localhost";
+    $dbusername = "debian-sys-maint";
+    $password = "bvjwgkcdZl64H808";
+    $dbname = "plc";
+
+    // Create connection
+    $conn = new mysqli($servername, $dbusername, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+       die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT * FROM files WHERE teamName='$teamName' and assessName ='$assessName' AND fileType='$fileType'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0)
+              {
+
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+           // $totalwordcount = str_word_count($row["essay"]);
+            $fileName = $row["fileName"];
+            $fileDescription = $row["fileDescription"];
+            echo "<br>";
+            echo "<a href=".$fileName.">".$fileName."</a>--Description - ".$fileDescription;
+
+        }
+
+   }
+
+  else {
+
+      echo "0 results";
+  }
+
+
+
+
+     ?>
     <br>
 </div>
 <div class="item8">
@@ -172,6 +251,54 @@ $binary = "";
     <input type="submit" value="Upload" />
 
     </form><br><br>
+
+    <br>
+    <?php
+
+    $fileToPrint = "100";
+    $teamName ="FirstTeam";
+    $assessName = "CFA 1";
+    $fileType = "Arduino Construction";
+
+    $servername = "localhost";
+    $dbusername = "debian-sys-maint";
+    $password = "bvjwgkcdZl64H808";
+    $dbname = "plc";
+
+    // Create connection
+    $conn = new mysqli($servername, $dbusername, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+       die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT * FROM files WHERE teamName='$teamName' and assessName ='$assessName' AND fileType='$fileType'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0)
+              {
+
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+           // $totalwordcount = str_word_count($row["essay"]);
+            $fileName = $row["fileName"];
+            $fileDescription = $row["fileDescription"];
+            echo "<br>";
+            echo "<a href=".$fileName.">".$fileName."</a>--Description - ".$fileDescription;
+
+        }
+
+   }
+
+  else {
+
+      echo "0 results";
+  }
+
+
+
+
+     ?>
+    <br>
+
 </div>
 <div class="item9">
   <b>4. No</b><br>
@@ -184,6 +311,52 @@ $binary = "";
 
     </form><br><br>
 
+    <br>
+    <?php
+
+    $fileToPrint = "100";
+    $teamName ="FirstTeam";
+    $assessName = "CFA 1";
+    $fileType = "Arduino Construction";
+
+    $servername = "localhost";
+    $dbusername = "debian-sys-maint";
+    $password = "bvjwgkcdZl64H808";
+    $dbname = "plc";
+
+    // Create connection
+    $conn = new mysqli($servername, $dbusername, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+       die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT * FROM files WHERE teamName='$teamName' and assessName ='$assessName' AND fileType='$fileType'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0)
+              {
+
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+           // $totalwordcount = str_word_count($row["essay"]);
+            $fileName = $row["fileName"];
+            $fileDescription = $row["fileDescription"];
+            echo "<br>";
+            echo "<a href=".$fileName.">".$fileName."</a>--Description - ".$fileDescription;
+
+        }
+
+   }
+
+  else {
+
+      echo "0 results";
+  }
+
+
+
+
+     ?>
+    <br>
 
 </div>
 <div class="item10">

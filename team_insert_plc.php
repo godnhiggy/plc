@@ -70,7 +70,7 @@ if ($conn->query($sql) === TRUE) {
 
 					$assessStandard = "";
 					$assessLT = "";
-					$assessDay = "";
+					$assessDay = "2017-06-01";
 					$completed = "";
 
 					// Create connection

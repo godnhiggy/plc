@@ -1,7 +1,7 @@
 <?php
 session_start();
 $userName = $_SESSION["userName"];
-//$teamName = $_SESSION["teamName"];
+$teamName = $_SESSION["teamName"];
 $_SESSION["assessName"] = "CFA 1";
 ?>
 

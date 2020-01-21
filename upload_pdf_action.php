@@ -1,5 +1,12 @@
 <?php
+$fileToPrint = "100";
+$teamName ="FirstTeam";
+$assessName = "CFA 1";
+$fileType = "Arduino Construction";
 
+
+
+  $fileDescription = $_POST["fileDescription"];
  $targetfolder = "uploads/";
 
  $targetfolder = $targetfolder . basename( $_FILES['file']['name']) ;
@@ -15,17 +22,15 @@ if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="ima
  {
 
  echo "The file ". basename( $_FILES['file']['name']). " is uploaded";
- $filename = basename($_FILES['file']['name']);
+ $filename = basename( $_FILES['file']['name']);
  echo "<br>";
- echo $filename;
+ echo $fileName;
  // connect to the database
  $db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
 
  //INSERT into the database
- $query = "INSERT INTO files (description, filename)
-       VALUES('$
-
-         ', '$attendance', '$day')";
+ $query = "INSERT INTO files (fileDescription, fileName, teamName, assessName, fileType)
+       VALUES('$fileDescription', '$targetfolder', '$teamName', '$assessName', '$fileType')";
 
  //run query
  mysqli_query($db, $query);
