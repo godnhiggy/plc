@@ -1,10 +1,5 @@
 <?php
 session_start();
-$servername = "localhost";
-$dbusername = "debian-sys-maint";
-$password = "bvjwgkcdZl64H808";
-$dbname = "plc";
-
 
 $lname = $_POST["lname"];
 $leadSource = $_POST["leadSource"];
@@ -14,6 +9,11 @@ $soldCount = $_POST["soldCount"];
 $quotedCount = $_POST["quotedCount"];
 $notes = $_POST["notes"];
 
+
+$servername = "localhost";
+$dbusername = "debian-sys-maint";
+$password = "bvjwgkcdZl64H808";
+$dbname = "plc";
 // Create connection
 $conn = new mysqli($servername, $dbusername, $password, $dbname);
 // Check connection

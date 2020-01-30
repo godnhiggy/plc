@@ -34,13 +34,43 @@ if ($conn->query($sql) === TRUE) {
 //echo "<br>";
 //echo $plcStandard;
 //echo $assessName;
+
+
+
+
+//header('location: https://www.google.com');
 header('location: record_plc.php');
+
+
 } else {
 echo "Error updating record: " . $conn->error;
 }
 }
 ////////////////////////////////////////////
 //plc learning target update
+
+//if ($_POST["assessLT"]){
+//header('location: www.google.com');
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if ($_POST["assessLT"]){
 $assessLT = $_POST["assessLT"];
 
@@ -61,7 +91,15 @@ echo "Record updated successfully";
 //echo "<br>";
 //echo $plcStandard;
 //echo $assessName;
+
+
+
+
 header('location: record_plc.php');
+
+
+
+
 } else {
 echo "Error updating record: " . $conn->error;
 }
@@ -88,7 +126,12 @@ if ($conn->query($sql) === TRUE) {
 //echo "<br>";
 //echo $plcStandard;
 //echo $assessName;
+
+
 header('location: record_plc.php');
+
+
+
 } else {
 echo "Error updating record: " . $conn->error;
 }

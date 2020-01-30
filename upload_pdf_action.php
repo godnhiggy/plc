@@ -1,13 +1,17 @@
 <?php
+session_start();
 $fileToPrint = "100";
-$teamName ="FirstTeam";
-$assessName = "CFA 1";
-$fileType = "Arduino Construction";
+$teamName = $_SESSION["teamName"];
+$assessName = $_SESSION["assessName"];
+
+if ($_POST["posting"]){$fileType=$_POST["posting"];
+  $targetfolder = "uploads/$fileType/";
+  $_SESSION["filetype"] = $fileType;
+}
 
 
-
-  $fileDescription = $_POST["fileDescription"];
- $targetfolder = "uploads/";
+ $fileDescription = $_POST["fileDescription"];
+ //$targetfolder = "uploads/";
 
  $targetfolder = $targetfolder . basename( $_FILES['file']['name']) ;
 
@@ -25,6 +29,7 @@ if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="ima
  $filename = basename( $_FILES['file']['name']);
  echo "<br>";
  echo $fileName;
+
  // connect to the database
  $db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
 
@@ -34,6 +39,7 @@ if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="ima
 
  //run query
  mysqli_query($db, $query);
+
  }
 
  else {
