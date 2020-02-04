@@ -5,13 +5,39 @@ $assessName = $_SESSION["assessName"];
 //$_SESSION["assessStandard"] = $assessStandard;
 $userName = $_SESSION["userName"];
 
-// connect to the database
-//$db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
+// connect to the database for assessment name insertion
+if ($_POST["assessName"]){
+$assessName = $_POST["assessName"];
 
-//$query = "UPDATE plcAssess SET assessStandard ='$plcStandard' WHERE assessName='$assessName'";
-//mysqli_query($db, $query);
+$servername = "localhost";
+$dbusername = "debian-sys-maint";
+$password = "bvjwgkcdZl64H808";
+$dbname = "plc";
+// Create connection
+$conn = new mysqli($servername, $dbusername, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+   die("Connection failed: " . $conn->connect_error);
+}
+$sql = "UPDATE plcAssess SET assessName ='$assessName' WHERE assessAdmin='$userName'";
 
-//header('location: record_plc.php');
+if ($conn->query($sql) === TRUE) {
+//echo "Record updated successfully";
+//echo "<br>";
+//echo $plcStandard;
+//echo $assessName;
+
+
+
+
+//header('location: https://www.google.com');
+header('location: record_plc.php');
+
+
+} else {
+echo "Error updating record: " . $conn->error;
+}
+}
 
 //plc Standard Update
 if ($_POST["assessStandard"]){
@@ -52,22 +78,6 @@ echo "Error updating record: " . $conn->error;
 //if ($_POST["assessLT"]){
 //header('location: www.google.com');
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

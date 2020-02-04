@@ -14,7 +14,7 @@ $binary = "";
   grid-template-columns: 50% 50%;
   display: grid;
   grid-gap: 5px;
-  background-color: #2196F3;
+  background-color: #006600;
   padding: 10px;
   border-radius: 25px;
 }
@@ -22,7 +22,7 @@ $binary = "";
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 20px;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 25px;
 }
 .item1 {
@@ -44,18 +44,22 @@ $binary = "";
 .item4 {
   grid-column: 1;
   grid-row: 3;
+  border-radius: 25px 25px 2px 2px;
 }
 .item5 {
   grid-column: 1;
   grid-row: 4;
+  border-radius: 2px 2px 25px 25px;
 }
 .item6 {
   grid-column: 1;
   grid-row: 5;
+  border-radius: 25px 25px 2px 2px;
 }
 .item7 {
   grid-column: 1;
   grid-row: 6;
+  border-radius: 2px 2px 25px 25px;
 }
 .item8 {
   grid-column: 1;
@@ -81,32 +85,57 @@ $binary = "";
     <br>Record Minutes
   </div>
 
-  <div class="grid-item item2">
-    <h2>The Four Questions</h2>
+  <?php
+    //SELECT statement with WHERE
+    $db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
+    $user_check_query = "SELECT * FROM plcAssess WHERE assessAdmin ='$userName' AND completed =''";
+    $result = mysqli_query($db, $user_check_query);
+    $user = mysqli_fetch_assoc($result);
+  //  if ($user) { set variables for the rest of the page here to grey out sections}
+      if ($user['assessAdmin'] === $userName) {
+        $assessName = $user['assessName'];
+        $assessTeam = $user['assessTeam'];
+        $assessStandard = $user['assessStandard'];
+        $assessLT = $user['assessLT'];
+        $assessDay = $user['assessDay'];
+        $completed = $user['completed'];
+        $_SESSION["assessName"] = $assessName;
+
+        //echo $assessName;
+                //echo $assessName;
+        //array_push($errors, "Username already exists");
+      }
+  //  }
+      ?>
+
+      <?php
+        if ($assessName) {
+              $test="#7dcf7d";} else {$test="rgba(255, 255, 255, 0.8)";}?>
+      <div class="grid-item item2" style = "background-color:
+                                              <?php echo $test; ?>
+                                                                    ">
     <?php
-      //SELECT statement with WHERE
-      $db = mysqli_connect('localhost', 'debian-sys-maint', 'bvjwgkcdZl64H808', 'plc');
-      $user_check_query = "SELECT * FROM plcAssess WHERE assessAdmin ='$userName' AND completed =''";
-      $result = mysqli_query($db, $user_check_query);
-      $user = mysqli_fetch_assoc($result);
-    //  if ($user) { set variables for the rest of the page here to grey out sections}
-        if ($user['assessAdmin'] === $userName) {
-          $assessName = $user['assessName'];
-          $assessTeam = $user['assessTeam'];
-          $assessStandard = $user['assessStandard'];
-          $assessLT = $user['assessLT'];
-          $assessDay = $user['assessDay'];
-          $completed = $user['completed'];
-          $_SESSION["assessName"] = $assessName;
+    if ($assessName){
 
-          //echo $assessName;
-                  //echo $assessName;
-          //array_push($errors, "Username already exists");
-        }
-    //  }
-        ?>
+?>
+    <h4>The Four Questions</h4>
+  for: <b><?php echo $assessName?></b><br><br>
+<?php
+}
 
-  We are working on CFA: <b><?php echo $assessName?></b><br><br>
+else {
+?>
+  <form action="four_questions_action_plc.php" method="POST">
+
+  Name your assessment!<br>
+
+    <input type="text" name="assessName"><br>
+    <input type="submit" value="Submit"><br>
+
+  </form>
+<?php
+}
+?>
 </div>
 
 <div class="grid-item item3">
@@ -163,8 +192,8 @@ $binary = "";
   </div>
 
   <div class="grid-item item3a">
-    <b>Meeting Records</b><br>
-      past meeting minutes<br>
+    <b>Past Meeting Minutes</b><br>
+
 
       <br>
       <?php
@@ -195,10 +224,14 @@ $binary = "";
              // $totalwordcount = str_word_count($row["essay"]);
               $plcAssess = $row["assess"];
               $plcNotes = $row["notes"];
+              $plcDay1 = date_create($row["day"]);
+              $plcDay = date_format($plcDay1, "D, M d, Y");
+
+
               echo "<br>";
-              echo $plcAssess."-------".$plcNotes;
+              echo $plcAssess."---".$plcDay."---".$plcNotes;
               echo "<br>";
-              //echo "<a href=".$fileName.">".$fileName."</a> -file description-'".$fileDescription."'";
+                            //echo "<a href=".$fileName.">".$fileName."</a> -file description-'".$fileDescription."'";
 
           }
 
@@ -225,7 +258,7 @@ $binary = "";
 
   <?php
     if ($assessStandard) {
-          $test="green";} else {$test="lightblue";}?>
+          $test="#7dcf7d";} else {$test="rgba(255, 255, 255, 0.8)";}?>
   <div class="grid-item item4" style = "background-color:
                                           <?php echo $test; ?>
                                                                 ">
@@ -264,7 +297,7 @@ $binary = "";
 <?php
 if ($assessLT) {
 
-$test="green";} else {$test="lightblue";}?>
+$test="#7dcf7d";} else {$test="rgba(255, 255, 255, 0.8)";}?>
 
 <div class="grid-item item5" style = "background-color:
 <?php echo $test; ?>
@@ -296,9 +329,9 @@ $test="green";} else {$test="lightblue";}?>
 <?php
 if ($assessDay) {
 
-$test="green";} else {$test="lightblue";}?>
+$test="#7dcf7d";} else {$test="rgba(255, 255, 255, 0.8)";}?>
 
-<div class="grid-item item6" style = "background-color:
+<div class="grid-item item7" style = "background-color:
 <?php echo $test; ?>
 
 ">
@@ -307,7 +340,21 @@ $test="green";} else {$test="lightblue";}?>
 //echo "<u>Target Date: </u><br>".$assessDay;
 //echo "<br><br>";}
 //  if (!$assessDay) {
+      $targetDay = date_create($assessDay);
+      $assessDay = date_format($targetDay, "D, M d, Y");
+
+
+
+      $tempTargetDay = strtotime($assessDay);
+      $tempToday = strtotime(date("D, M d, Y"));
+
+      if ($tempToday < $tempTargetDay) {
+
+
+
+
     echo "<u>Target Date: </u><br>".$assessDay;
+}
 //  }else{
    ?>
 
@@ -316,7 +363,7 @@ $test="green";} else {$test="lightblue";}?>
 
       <!--  test date<br>
         <input type="date" name="day"><br>-->
-        change test date ifneeded<br>
+        Select Assess Date<br>
         <input type="date" name="assessDay"><br>
         <input type="submit" value="Submit"><br>
       </form>
@@ -327,9 +374,9 @@ $test="green";} else {$test="lightblue";}?>
   ?>
 
 </div>
-<div class="grid-item item7">
+<div class="grid-item item6">
   <b>2. How</b><br>
-    cfa upload<br>
+    Upload CFA<br>
     <form action="upload_pdf_action.php" method="post" enctype="multipart/form-data">
 
     <input type="file" name="file" size="50" />
@@ -340,8 +387,8 @@ $test="green";} else {$test="lightblue";}?>
     <br>
     <input type="text" name="fileDescription" required><br>
     <input type="hidden" name="posting" value="cfa">
-    </form><br><br>
-    <br>
+  </form><br>
+    uploaded files
     <?php
 
     //$fileToPrint = "100";
@@ -379,7 +426,7 @@ $test="green";} else {$test="lightblue";}?>
 
   else {
 
-      echo "0 results";
+      echo "0 ";
   }
 
 
@@ -401,8 +448,8 @@ $test="green";} else {$test="lightblue";}?>
     <br>
     <input type="text" name="fileDescription" required><br>
     <input type="hidden" name="posting" value="extension">
-    </form><br><br>
-    <br>
+    </form><br>
+    uploaded files
     <?php
 
     //$fileToPrint = "100";
@@ -440,7 +487,7 @@ $test="green";} else {$test="lightblue";}?>
 
   else {
 
-      echo "0 results";
+      echo "0 ";
   }
 
 
@@ -462,8 +509,8 @@ $test="green";} else {$test="lightblue";}?>
     <br>
     <input type="text" name="fileDescription" required><br>
     <input type="hidden" name="posting" value="remediation">
-    </form><br><br>
-    <br>
+    </form><br>
+    uploaded files
     <?php
 
     //$fileToPrint = "100";
@@ -501,7 +548,7 @@ $test="green";} else {$test="lightblue";}?>
 
   else {
 
-      echo "0 results";
+      echo "0 ";
   }
 
 

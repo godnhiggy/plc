@@ -2,7 +2,7 @@
 session_start();
 $userName = $_SESSION["userName"];
 $teamName = $_SESSION["teamName"];
-$_SESSION["assessName"] = "CFA 1";
+//$_SESSION["assessName"] = "CFA 1";
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ float: left;
     <?php
 echo "Hey ". $userName. "! Let's Build Your 'Team' ";
 echo "<br>";
-echo "Your CFA will be Titled 'CFA 1'";
+//echo "Your CFA will be Titled 'CFA 1'";
      ?>
   </div>
   <div class="item2"></div>

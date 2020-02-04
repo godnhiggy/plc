@@ -43,7 +43,7 @@ if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="ima
  }
 
  else {
-
+echo $filename;
  echo "Problem uploading file";
 
  }
