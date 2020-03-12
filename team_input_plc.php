@@ -96,7 +96,7 @@ echo "<br>";
 
   <div class="item3">
 <form action="team_insert_plc.php" method="POST">
-  <label for="teamName">Team Name</label><input type="text" name="teamName"><br>
+  <label for="teamName">Team Name</label><input type="text" name="teamName" required><br>
   <?php
   $servername = "localhost";
   $dbusername = "debian-sys-maint";
