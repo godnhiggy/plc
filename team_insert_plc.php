@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+//this is a test line of code to check on git to github
 $userName = $_SESSION["userName"];
 $assessName = $_SESSION["assessName"];
 if (!$_SESSION["teamName"]){
@@ -36,7 +38,7 @@ $assessTeam = $_SESSION["teamName"];
 
 	    //{
 
-	      echo($teamMembersPost[$i] . " ");
+	      //echo($teamMembersPost[$i] . " ");
         //put sql insert statement here
         $servername = "localhost";
         $dbusername = "debian-sys-maint";
@@ -50,11 +52,16 @@ $assessTeam = $_SESSION["teamName"];
         if ($conn->connect_error) {
            die("Connection failed: " . $conn->connect_error);
         }
+			//	echo "this works";
+				$str = "$assessTeam";
+   			$assessTeam = preg_replace('/[^a-zA-Z0-9]/','', $str);
+
         $sql = "INSERT INTO plcTeam (teamName, admin, member1, member2, member3, member4, member5, member6, member7, member8, member9, member10)
 				      VALUES('$assessTeam', '$userName', '$teamMembersPost[0]', '$teamMembersPost[1]', '$teamMembersPost[2]', '$teamMembersPost[3]', '$teamMembersPost[4]', '$teamMembersPost[5]', '$teamMembersPost[6]', '$teamMembersPost[7]', '$teamMembersPost[8]', '$teamMembersPost[9]')";
 
 if ($conn->query($sql) === TRUE) {
-  echo "Record updated successfully";
+  //echo "Record updated successfully";
+	header('location: record_plc.php');
 			}
 
 		else {
@@ -63,7 +70,7 @@ if ($conn->query($sql) === TRUE) {
 			    //}
 
 					//put sql insert statement here
-					$servername = "localhost";
+			/*	$servername = "localhost";
 					$dbusername = "debian-sys-maint";
 					$password = "bvjwgkcdZl64H808";
 					$dbname = "plc";
@@ -87,7 +94,7 @@ if ($conn->query($sql) === TRUE) {
 					} else {
 					echo "Error updating record: " . $conn->error;
 					header('location: https://www.yahoo.com');
-					}
+				}*/
 
 
 	  }
